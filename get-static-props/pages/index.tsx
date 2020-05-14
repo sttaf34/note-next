@@ -27,7 +27,9 @@ const Page: NextPage<Props> = (props: Props) => {
 
 export default Page
 
+// この関数を書いておくとビルド時に実行され、↑のPageに渡される
 export const getStaticProps: GetStaticProps = async () => {
+  // 例えば、CSVファイルから読み込んだり、DBから取ったりする
   const title = "トップページ！！！"
   return { props: { title } }
 }
