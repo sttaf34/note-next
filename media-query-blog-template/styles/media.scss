@@ -1,0 +1,8 @@
+// 小さいサイズ向けを指定なしで書いといて
+// 大きいサイズは上書きで指定するような形
+// https://qiita.com/knml/items/c94dc493571dd4127d43
+@mixin pc {
+  @media (min-width: 900px) {
+    @content;
+  }
+}

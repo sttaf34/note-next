@@ -1,0 +1,22 @@
+@import "../styles/media";
+
+main.main {
+  padding-bottom: 1.8rem;
+  div {
+    margin: 0 auto;
+    width: 85%;
+
+    h2 {
+      margin: 1.8rem 0 0 0;
+    }
+    p {
+      margin: 1rem 0 0 0;
+    }
+  }
+
+  @include pc {
+    div {
+      width: 800px;
+    }
+  };
+}
