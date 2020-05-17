@@ -1,40 +1,156 @@
 import React from "react"
 import { NextPage } from "next"
 
-interface Movie {
-  id: number
-  title: string
+import {
+  Movie,
+  createMovie,
+  readMovies,
+  updateMovie,
+  deleteMovie,
+} from "../other/movie-data-manager"
+
+//
+// Context
+//
+
+interface Context {
+  movies: Movie[]
+  setNewMovies: (movies: Movie[]) => void
+  setNewMessage: (message: string) => void
 }
 
-const Page: NextPage = () => {
-  const initialMovies: Movie[] = []
-  const [movies, setMovies] = React.useState(initialMovies)
+const initialContext: Context = {
+  movies: [],
+  setNewMovies: (movies: Movie[]): void => {
+    console.log(movies)
+  },
+  setNewMessage: (message: string): void => {
+    console.log(message)
+  },
+}
 
-  const fetchMovies = async (): Promise<void> => {
-    const endpoint = "http://localhost:23306/movies"
-    const response = await fetch(endpoint)
-    const newMovies: Movie[] = await response.json()
-    setMovies(newMovies)
+const MovieContext = React.createContext(initialContext)
+
+//
+// Child Component
+//
+
+const Form: React.FC = () => {
+  const [value, setValue] = React.useState("")
+
+  const context = React.useContext(MovieContext)
+  const { setNewMovies, setNewMessage } = context
+
+  const onChange = (event: React.FormEvent<HTMLInputElement>): void => {
+    setValue(event.currentTarget.value)
+  }
+
+  const onClick = (event: React.FormEvent<HTMLInputElement>): void => {
+    event.preventDefault()
+    setValue("")
+    ;(async (): Promise<void> => {
+      const newMovie = await createMovie(value)
+      const newMovies = await readMovies()
+      setNewMovies(newMovies)
+      setNewMessage(`「${newMovie.title}」を登録しました`)
+    })()
+  }
+
+  return (
+    <form>
+      <input type="text" value={value} onChange={onChange} />
+      <input type="submit" value="登録" onClick={onClick} />
+    </form>
+  )
+}
+
+const List: React.FC = () => {
+  const context = React.useContext(MovieContext)
+  const { movies } = context
+
+  const lis = movies.map((movie) => {
+    return <Li key={movie.id} movie={movie} />
+  })
+
+  return <ul>{lis}</ul>
+}
+
+interface LiProps {
+  movie: Movie
+}
+
+const Li: React.FC<LiProps> = (props: LiProps) => {
+  const { movie } = props
+
+  const [value, setValue] = React.useState(movie.title)
+
+  const context = React.useContext(MovieContext)
+  const { setNewMovies, setNewMessage } = context
+
+  const onChange = (event: React.FormEvent<HTMLInputElement>): void => {
+    setValue(event.currentTarget.value)
+  }
+
+  const onClickUpdate = (event: React.FormEvent<HTMLInputElement>): void => {
+    event.preventDefault()
+    ;(async (): Promise<void> => {
+      const newMovie = await updateMovie(movie.id, value)
+      const newMovies = await readMovies()
+      setNewMovies(newMovies)
+      setNewMessage(`「${movie.title}」を「${newMovie.title}」に変更しました`)
+    })()
+  }
+
+  const onClickDelete = (event: React.FormEvent<HTMLInputElement>): void => {
+    event.preventDefault()
+    ;(async (): Promise<void> => {
+      await deleteMovie(movie.id)
+      const newMovies = await readMovies()
+      setNewMovies(newMovies)
+      setNewMessage(`「${movie.title}」を削除しました`)
+    })()
+  }
+
+  return (
+    <form>
+      <input type="text" value={value} onChange={onChange} />
+      <input type="submit" value="変更" onClick={onClickUpdate} />
+      <input type="submit" value="削除" onClick={onClickDelete} />
+    </form>
+  )
+}
+
+//
+// Export Component
+//
+
+const Page: NextPage = () => {
+  const [movies, setMovies] = React.useState(Array<Movie>())
+  const [message, setMessage] = React.useState("")
+
+  const context = {
+    movies,
+    setNewMovies: (newMovies: Movie[]): void => {
+      setMovies(newMovies)
+    },
+    setNewMessage: (newMessage: string): void => {
+      setMessage(newMessage)
+    },
   }
 
   React.useEffect(() => {
-    // TODO: try catch でエラー処理して、エラーメッセージの表示も作る
-    fetchMovies()
-  }, movies)
-
-  const lis = movies.map((movie) => {
-    return (
-      <li key={movie.id}>
-        <span>{movie.id}</span>
-        <span>{movie.title}</span>
-      </li>
-    )
-  })
+    ;(async (): Promise<void> => {
+      const newMovies = await readMovies()
+      setMovies(newMovies)
+    })()
+  }, [])
 
   return (
-    <div>
-      <ul>{lis}</ul>
-    </div>
+    <MovieContext.Provider value={context}>
+      <p>{message}</p>
+      <Form />
+      <List />
+    </MovieContext.Provider>
   )
 }
 
