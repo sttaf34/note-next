@@ -1,8 +1,8 @@
 import React from "react"
 import { NextPage } from "next"
 
-import MainContextProvider, { MainContext } from "../other/mainContext"
-import Child from "../other/mainChild"
+import MainContextProvider, { MainContext } from "../others/mainContext"
+import Child from "../others/mainChild"
 
 const Parent: React.FC = () => {
   const context = React.useContext(MainContext)
