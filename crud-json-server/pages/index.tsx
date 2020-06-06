@@ -50,9 +50,12 @@ const Form: React.FC = () => {
     setValue("")
     ;(async (): Promise<void> => {
       const newMovie = await createMovie(value)
+      const message = newMovie
+        ? `「${newMovie.title}」を登録しました`
+        : `登録できなかったようです`
+      setNewMessage(message)
       const newMovies = await readMovies()
       setNewMovies(newMovies)
-      setNewMessage(`「${newMovie.title}」を登録しました`)
     })()
   }
 
@@ -95,9 +98,12 @@ const Li: React.FC<LiProps> = (props: LiProps) => {
     event.preventDefault()
     ;(async (): Promise<void> => {
       const newMovie = await updateMovie(movie.id, value)
+      const message = newMovie
+        ? `「${movie.title}」を「${newMovie.title}」に変更しました`
+        : `変更できなかったようです`
+      setNewMessage(message)
       const newMovies = await readMovies()
       setNewMovies(newMovies)
-      setNewMessage(`「${movie.title}」を「${newMovie.title}」に変更しました`)
     })()
   }
 

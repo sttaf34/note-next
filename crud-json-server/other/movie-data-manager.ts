@@ -1,12 +1,18 @@
 const endpoint = "http://localhost:23306/movies"
 
+// fetch 周りのエラー処理は省略、別プロジェクトにまとめる
+
 export interface Movie {
   id: number
   title: string
 }
 
+const isMovie = (object: {}): object is Movie => {
+  return "id" in object && "title" in object
+}
+
 // curl -X POST http://localhost:23306/movies -d 'title=Rocky5'
-export const createMovie = async (title: string): Promise<Movie> => {
+export const createMovie = async (title: string): Promise<Movie | null> => {
   const response = await fetch(endpoint, {
     method: "POST",
     headers: {
@@ -15,22 +21,29 @@ export const createMovie = async (title: string): Promise<Movie> => {
     },
     body: JSON.stringify({ title }),
   })
-  const movie: Movie = await response.json()
-  return movie
+  const object = await response.json()
+  if (isMovie(object)) {
+    return object
+  }
+  return null
 }
 
 // curl -X GET http://localhost:23306/movies
 export const readMovies = async (): Promise<Movie[]> => {
   const response = await fetch(endpoint)
-  const movies: Movie[] = await response.json()
-  return movies
+  const object = await response.json()
+  if (Array.isArray(object)) {
+    const movies = object.filter(isMovie)
+    return movies
+  }
+  return []
 }
 
 // curl -X PATCH http://localhost:23306/movies/1 -d 'title=Titanic'
 export const updateMovie = async (
   id: number,
   newTitle: string
-): Promise<Movie> => {
+): Promise<Movie | null> => {
   const response = await fetch(`${endpoint}/${id}`, {
     method: "PATCH",
     headers: {
@@ -39,8 +52,11 @@ export const updateMovie = async (
     },
     body: JSON.stringify({ title: newTitle }),
   })
-  const updatedMovie: Movie = await response.json()
-  return updatedMovie
+  const object = await response.json()
+  if (isMovie(object)) {
+    return object
+  }
+  return null
 }
 
 // curl -X DELETE http://localhost:23306/movies/2
