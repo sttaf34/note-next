@@ -13,6 +13,10 @@ const Page: NextPage = () => {
         <Link href="/auto-sizer">
           <a>AutoSizer</a>
         </Link>
+        <br />
+        <Link href="/cell-measurer">
+          <a>CellMeasurer</a>
+        </Link>
       </p>
     </>
   )
