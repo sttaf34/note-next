@@ -1,6 +1,6 @@
 import React from "react"
 
-import { checkboxCount } from "./checkConstants"
+import { checkboxCount } from "../others/checkConstants"
 
 // pages/check.tsx は複数個のチェックボックスを持っている
 // この others/chkeckContext.tsx は

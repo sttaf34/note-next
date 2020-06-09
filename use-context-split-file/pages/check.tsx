@@ -2,7 +2,7 @@ import React from "react"
 import { NextPage } from "next"
 
 import { checkboxTitles } from "../others/checkConstants"
-import CheckContextProvider, { CheckContext } from "../others/checkContext"
+import CheckContextProvider, { CheckContext } from "../contexts/checkContext"
 
 interface CheckboxPros {
   title: string
