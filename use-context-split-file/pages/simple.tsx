@@ -1,32 +1,10 @@
 import React from "react"
 import { NextPage } from "next"
 
-//
-// Context の用意
-//
-
-const INITIAL_COUNT = 0
-
-interface Context {
-  count: number
-  increment: () => void
-}
-
-const initialContext: Context = {
-  count: INITIAL_COUNT,
-  increment: (): void => {
-    //
-  },
-}
-
-const IndexContext = React.createContext(initialContext)
-
-//
-// Component
-//
+import { SimpleContextProvider, SimpleContext } from "../contexts/simpleContext"
 
 const Child: React.FC = () => {
-  const context = React.useContext(IndexContext)
+  const context = React.useContext(SimpleContext)
   const { count, increment } = context
 
   return (
@@ -40,7 +18,7 @@ const Child: React.FC = () => {
 }
 
 const Parent: React.FC = () => {
-  const context = React.useContext(IndexContext)
+  const context = React.useContext(SimpleContext)
   const { count, increment } = context
 
   return (
@@ -55,19 +33,10 @@ const Parent: React.FC = () => {
 }
 
 const Page: NextPage = () => {
-  const [currentCount, setCount] = React.useState(0)
-
-  const context = {
-    count: currentCount,
-    increment: (): void => {
-      setCount(currentCount + 1)
-    },
-  }
-
   return (
-    <IndexContext.Provider value={context}>
+    <SimpleContextProvider>
       <Parent />
-    </IndexContext.Provider>
+    </SimpleContextProvider>
   )
 }
 

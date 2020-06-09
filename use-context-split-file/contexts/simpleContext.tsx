@@ -20,9 +20,9 @@ const initialContext: Context = {
   },
 }
 
-export const MainContext = React.createContext(initialContext)
+export const SimpleContext = React.createContext(initialContext)
 
-const MainContextProvider: React.FC = (props: React.Props<{}>) => {
+export const SimpleContextProvider: React.FC = (props: React.Props<{}>) => {
   const [currentCount, setCount] = React.useState(0)
 
   const context = {
@@ -33,7 +33,7 @@ const MainContextProvider: React.FC = (props: React.Props<{}>) => {
   }
 
   const { children } = props
-  return <MainContext.Provider value={context}>{children}</MainContext.Provider>
+  return (
+    <SimpleContext.Provider value={context}>{children}</SimpleContext.Provider>
+  )
 }
-
-export default MainContextProvider
