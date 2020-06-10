@@ -17,6 +17,14 @@ const Page: NextPage = () => {
         <Link href="/cell-measurer">
           <a>CellMeasurer</a>
         </Link>
+        <br />
+        <Link href="/cell-measurer-random-height">
+          <a>CellMeasurerRandomHeight</a>
+        </Link>
+        <br />
+        <Link href="/window-scroller-auto-sizer">
+          <a>WindowScroller AutoSizer</a>
+        </Link>
       </p>
     </>
   )

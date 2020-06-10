@@ -6,6 +6,7 @@ import { colorNames } from "../others/color"
 
 const styleDiv = css({
   height: 300,
+  width: "80%",
 })
 
 const Page: NextPage = () => {
@@ -20,6 +21,8 @@ const Page: NextPage = () => {
     )
   }
 
+  // AutoSizer の中に位置するわけなので、
+  // 全体の高さと幅は props で受け取れることになる
   const autoSizerChildren = (props: Size): React.ReactNode => {
     const { height, width } = props
     return (
@@ -34,6 +37,7 @@ const Page: NextPage = () => {
   }
 
   // AutoSizer は外側の要素のサイズに合わせてくれる仕組み
+  // 外側の要素の横幅がパーセント指定でも大丈夫
   return (
     <>
       <p>AutoSizer</p>
