@@ -70,6 +70,7 @@ const Page: NextPage = () => {
       return (
         <List
           autoHeight
+          deferredMeasurementCache={cache}
           height={height}
           isScrolling={isScrolling}
           onScroll={onChildScroll}
