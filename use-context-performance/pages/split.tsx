@@ -1,10 +1,15 @@
 import React from "react"
 import { NextPage } from "next"
 
-import { SimpleContextProvider, SimpleContext } from "../contexts/simpleContext"
+import {
+  StateContext,
+  SetStateContext,
+  SplitContextProvider,
+} from "../contexts/splitContext"
 
 const StateComponent: React.FC = () => {
-  const { count } = React.useContext(SimpleContext)
+  const state = React.useContext(StateContext)
+  const { count } = state
 
   console.log("StateComponent render")
   return (
@@ -15,13 +20,13 @@ const StateComponent: React.FC = () => {
 }
 
 const SetStateComponent: React.FC = () => {
-  // このコンポーネントは、最初に render されたら
-  // 以降の render は必要ないものだけども、
-  // SimpleContext を使っている関係で state 変更の都度 render される
-  const { setCount } = React.useContext(SimpleContext)
+  const setState = React.useContext(SetStateContext)
 
+  // setState の中の処理を関数で書く形にすることで、
+  // const state = React.useContext(StateContext) をする必要がなくなり、
+  // state 変更時の render されないようになっている
   const increment = (): void => {
-    setCount((count) => count + 1)
+    setState((state) => ({ count: state.count + 1 }))
   }
 
   console.log("SetStateComponent render")
@@ -46,9 +51,9 @@ const Parent: React.FC = () => {
 
 const Page: NextPage = () => {
   return (
-    <SimpleContextProvider>
+    <SplitContextProvider>
       <Parent />
-    </SimpleContextProvider>
+    </SplitContextProvider>
   )
 }
 

@@ -1,29 +1,27 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+
 import React from "react"
 
 const INITIAL_COUNT = 0
 
 interface Context {
   count: number
-  increment: () => void
+  setCount: React.Dispatch<React.SetStateAction<number>>
 }
 
 const initialContext: Context = {
   count: INITIAL_COUNT,
-  increment: (): void => {
-    //
-  },
+  setCount: (): void => {},
 }
 
 export const SimpleContext = React.createContext(initialContext)
 
 export const SimpleContextProvider: React.FC = (props: React.Props<{}>) => {
-  const [currentCount, setCount] = React.useState(0)
+  const [count, setCount] = React.useState(0)
 
   const context = {
-    count: currentCount,
-    increment: (): void => {
-      setCount(currentCount + 1)
-    },
+    count,
+    setCount,
   }
 
   const { children } = props
