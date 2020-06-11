@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "develop": "next",
-    "lint": "eslint --ext .ts pages/",
+    "lint": "eslint --ext .ts,.tsx src/**",
     "build": "next build",
     "start": "next start"
   },
