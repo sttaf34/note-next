@@ -7,14 +7,13 @@ module.exports = {
   "extends": [
     "airbnb",
     "plugin:@typescript-eslint/recommended",
-    "plugin:prettier/recommended",
+    "prettier",
     "prettier/@typescript-eslint",
     "prettier/react"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "project": "./tsconfig.json",
-    "createDefaultProgram": true
   },
   "plugins": ["@typescript-eslint", "prettier"],
   "settings": {
@@ -24,7 +23,7 @@ module.exports = {
       }
     },
     "react": {
-      "version": "16.11"
+      "version": "detect"
     }
   },
   "rules": {
@@ -39,11 +38,5 @@ module.exports = {
 
     // Next.js の <Link> で警告出ないように対応する
     "jsx-a11y/anchor-is-valid": "off",
-
-    // export default は基本使わないとする
-    // https://engineering.linecorp.com/ja/blog/you-dont-need-default-export/
-    // pages ディレクトリ下では限定的に許可して対応してる
-    "import/no-default-export": "error",
-    "import/prefer-default-export": "off",
   }
 }
