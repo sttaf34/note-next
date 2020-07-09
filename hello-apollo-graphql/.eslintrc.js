@@ -41,5 +41,6 @@ module.exports = {
 
     // Next.js の <Link> で警告出ないように対応する
     "jsx-a11y/anchor-is-valid": "off",
-  }
+  },
+  "ignorePatterns": [".eslintrc.js", "next.config.js"],
 }

@@ -1,11 +1,8 @@
 import React from "react"
 import gql from "graphql-tag"
-import { config } from "dotenv"
 import { NextPage } from "next"
 import ApolloClient from "apollo-boost"
-
-config()
-console.log(process.env)
+import { ApolloProvider, useQuery } from "react-apollo"
 
 const client = new ApolloClient({
   uri: "https://api.github.com/graphql",
@@ -17,8 +14,6 @@ const client = new ApolloClient({
     })
   },
 })
-
-console.log(process.env.GITHUB_PERSONAL_ACCESS_TOKEN)
 
 const query = gql`
   {
@@ -38,14 +33,31 @@ const query = gql`
   }
 `
 
-// client.query({ query }).then((result) => console.log(result))
+client.query({ query }).then((result) => console.log(result))
+
+const Component = () => {
+  const { loading, error, data } = useQuery(query)
+
+  if (loading) {
+    return <p>通信中</p>
+  }
+  if (error) {
+    return <p>エラーです</p>
+  }
+
+  console.log(data)
+  return (
+    <>
+      <p>データが取れました</p>
+    </>
+  )
+}
 
 const Page: NextPage = () => {
   return (
-    <>
-      <h1>見出し</h1>
-      <p>ああああ</p>
-    </>
+    <ApolloProvider client={client}>
+      <Component />
+    </ApolloProvider>
   )
 }
 
