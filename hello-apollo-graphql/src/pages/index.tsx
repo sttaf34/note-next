@@ -1,3 +1,6 @@
+// https://qiita.com/seya/items/e1d8e77352239c4c4897
+// https://www.apollographql.com/docs/react/get-started/
+
 import React from "react"
 import gql from "graphql-tag"
 import { NextPage } from "next"
@@ -32,8 +35,6 @@ const query = gql`
     }
   }
 `
-
-client.query({ query }).then((result) => console.log(result))
 
 const Component = () => {
   const { loading, error, data } = useQuery(query)
