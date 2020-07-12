@@ -10,30 +10,30 @@ const INITIAL_CHECKED = Array<boolean>(checkboxCount).fill(false)
 
 interface Context {
   checked: boolean[]
-  setChecked: (index: number, value: boolean) => void
+  invertChecked: (index: number) => void
 }
 
 const initialContext: Context = {
   checked: INITIAL_CHECKED,
-  setChecked: (index: number, value: boolean): void => {
-    console.log(index, value)
+  invertChecked: (index: number): void => {
+    console.log(index)
   },
 }
 
 export const CheckContext = React.createContext(initialContext)
 
-const CheckContextProvider: React.FC = (props: React.Props<{}>) => {
-  const [currentChecked, setNewChecked] = React.useState(INITIAL_CHECKED)
+const CheckContextProvider: React.FC = (props: React.Props<unknown>) => {
+  const [checked, setChecked] = React.useState(INITIAL_CHECKED)
 
   const context = {
-    checked: currentChecked,
-    setChecked: (index: number, value: boolean): void => {
+    checked,
+    invertChecked: (index: number): void => {
       if (index < 0 || index >= checkboxCount) {
         return
       }
-      const newChecked = currentChecked.slice()
-      newChecked[index] = value
-      setNewChecked(newChecked)
+      const newChecked = { ...checked }
+      newChecked[index] = !checked[index]
+      setChecked(newChecked)
     },
   }
 

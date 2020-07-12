@@ -10,9 +10,7 @@ interface CheckboxPros {
 }
 
 const Checkbox: React.FC<CheckboxPros> = (props: CheckboxPros) => {
-  const context = React.useContext(CheckContext)
-  const { checked, setChecked } = context
-
+  const { checked, invertChecked } = React.useContext(CheckContext)
   const { title, index } = props
   const currentChecked = checked[index]
 
@@ -21,8 +19,10 @@ const Checkbox: React.FC<CheckboxPros> = (props: CheckboxPros) => {
       <input
         type="checkbox"
         onClick={(): void => {
-          setChecked(index, currentChecked)
+          invertChecked(index)
         }}
+        checked={currentChecked}
+        readOnly
       />
       {title}
     </>
@@ -30,6 +30,9 @@ const Checkbox: React.FC<CheckboxPros> = (props: CheckboxPros) => {
 }
 
 const Ol: React.FC = () => {
+  const { checked } = React.useContext(CheckContext)
+  console.log(checked)
+
   const lis = checkboxTitles.map((title, index) => {
     return (
       <li key={String(index)}>
