@@ -1,9 +1,7 @@
 import React from "react"
 import { NextPage, GetStaticProps } from "next"
-import Head from "next/head"
 import Link from "next/link"
-
-import Layout from "../components/layout"
+import pageIds from "../others/constants"
 
 interface Props {
   title: string
@@ -11,17 +9,30 @@ interface Props {
 
 const Page: NextPage<Props> = (props: Props) => {
   const { title } = props
+
+  // ダイナミックで作ってるページへの <Link> の例
+  // https://nextjs.org/docs/api-reference/next/link
+  const links = pageIds.map((pageId) => {
+    return (
+      <li key={pageId}>
+        <Link href="/posts/[id]" as={`/posts/${pageId}`}>
+          <a>[id].tsx へのリンク</a>
+        </Link>
+      </li>
+    )
+  })
+
   return (
-    <Layout>
-      <Head>
-        <title>{title}</title>
-      </Head>
+    <>
+      <h1>見出し</h1>
+      <h3>{title}</h3>
       <p>
         <Link href="/about">
           <a>about</a>
         </Link>
       </p>
-    </Layout>
+      <ul>{links}</ul>
+    </>
   )
 }
 
