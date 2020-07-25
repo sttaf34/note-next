@@ -3,11 +3,13 @@ module.exports = {
     es6: true,
     browser: true,
     node: true,
+    jest: true,
   },
   extends: [
     "airbnb",
     "airbnb/hooks",
     "plugin:@typescript-eslint/recommended",
+    "plugin:jest/recommended",
     "prettier",
     "prettier/@typescript-eslint",
     "prettier/react",
