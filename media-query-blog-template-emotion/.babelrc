@@ -1,9 +1,0 @@
-// https://github.com/emotion-js/emotion/issues/1237
-{
-  "presets": [
-    "next/babel", "@emotion/babel-preset-css-prop"
-  ],
-  "plugins": [
-    ["emotion"]
-  ]
-}
