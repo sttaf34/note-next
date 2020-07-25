@@ -10,7 +10,6 @@ type Props = {
 
 const Page: NextPage<Props> = (props: Props) => {
   const { paths } = props
-  console.log(paths)
   const lis = paths.map((path) => (
     <li key={path}>
       <Link href={path}>
