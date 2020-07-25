@@ -33,14 +33,9 @@ export const getStaticProps: GetStaticProps = async () => {
   const fullPathPages = expandTilde(join(process.cwd(), "src/pages"))
   const paths = readFullPathsRecursively([fullPathPages])
 
+  const invalidTexts = ["_", "[", "index.tsx"]
   let filteredPaths = paths.filter((path) => {
-    if (path.includes("_")) {
-      return false
-    }
-    if (path === "index.tsx") {
-      return false
-    }
-    return true
+    return !invalidTexts.some((text) => path.includes(text))
   })
 
   filteredPaths = filteredPaths.map((path) => {
