@@ -4,7 +4,7 @@
   "main": "index.tsx",
   "license": "MIT",
   "scripts": {
-    "develop": "next",
+    "develop": "NODE_OPTIONS='--inspect' next",
     "lint": "eslint --ext .ts,.tsx src/**",
     "build": "next build",
     "start": "next start"
