@@ -1,8 +1,8 @@
 import React from "react"
 import { NextPage, GetStaticProps } from "next"
 import Link from "next/link"
-import fs from "fs"
 import { join } from "path"
+import { expandTilde, readFullPathsRecursively } from "src/others/path"
 
 type Props = {
   paths: string[]
@@ -30,11 +30,11 @@ const Page: NextPage<Props> = (props: Props) => {
 export default Page
 
 export const getStaticProps: GetStaticProps = async () => {
-  // TODO: pages の下が階層構造になっているときの対応が必要
-  const pagesDirectory = join(process.cwd(), "src/pages")
-  const paths = fs.readdirSync(pagesDirectory)
+  const fullPathPages = expandTilde(join(process.cwd(), "src/pages"))
+  const paths = readFullPathsRecursively([fullPathPages])
+
   let filteredPaths = paths.filter((path) => {
-    if (path.length > 0 && path[0] === "_") {
+    if (path.includes("_")) {
       return false
     }
     if (path === "index.tsx") {
@@ -42,8 +42,9 @@ export const getStaticProps: GetStaticProps = async () => {
     }
     return true
   })
+
   filteredPaths = filteredPaths.map((path) => {
-    return path.replace(".tsx", "")
+    return path.replace(`${fullPathPages}/`, "").replace(".tsx", "")
   })
 
   return { props: { paths: filteredPaths } }
