@@ -48,11 +48,7 @@ class HelloClassComponent extends React.Component<Props, State> {
 }
 
 const Page: NextPage = () => {
-  return (
-    <>
-      <HelloClassComponent title="タイトル" />
-    </>
-  )
+  return <HelloClassComponent title="タイトル" />
 }
 
 // eslint-disable-next-line import/no-default-export
