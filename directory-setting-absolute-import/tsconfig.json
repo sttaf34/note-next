@@ -17,10 +17,18 @@
     "jsx": "preserve",
     "allowJs": true,
     "skipLibCheck": false,
-    "baseUrl": "."
+
+    // https://nextjs.org/docs/advanced-features/module-path-aliases
+    "baseUrl": ".",
+
+    // til.hashrocket.com/posts/lmnsdtce3y-import-absolute-paths-in-typescript-jest-tests
+    "paths": {
+      "src/*": ["src/*"],
+    }
   },
   "include": [
     "next-env.d.ts",
+    ".eslintrc.js",
     "**/*.ts",
     "**/*.tsx"
   ],
