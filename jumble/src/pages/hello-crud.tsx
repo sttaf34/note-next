@@ -7,7 +7,7 @@ import {
   readMovies,
   deleteMovie,
   updateMovie,
-} from "src/modules/hello-crud/movie-data-manager"
+} from "src/modules/hello-crud/movieDataManager"
 
 //
 // Context
