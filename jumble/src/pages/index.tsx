@@ -2,7 +2,17 @@ import React from "react"
 import { NextPage, GetStaticProps } from "next"
 import Link from "next/link"
 import { join } from "path"
+import styled from "@emotion/styled"
 import { expandTilde, readFullPathsRecursively } from "src/others/path"
+
+const StyledUl = styled.ul({
+  listStyleType: "none",
+  paddingLeft: 12,
+  fontFamily: "Menlo",
+  li: {
+    padding: "0.2rem",
+  },
+})
 
 type Props = {
   paths: string[]
@@ -20,8 +30,7 @@ const Page: NextPage<Props> = (props: Props) => {
 
   return (
     <>
-      <h1>ページの一覧</h1>
-      <ul>{lis}</ul>
+      <StyledUl>{lis}</StyledUl>
     </>
   )
 }
