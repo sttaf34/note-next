@@ -8,7 +8,8 @@
     "lint": "eslint --ext .ts,.tsx src/**",
     "test": "jest",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "db": "json-server --watch data/movies.json --port 23306"
   },
   "dependencies": {
     "@emotion/babel-preset-css-prop": "^10.0.27",
@@ -25,6 +26,7 @@
     "emotion-server": "^10.0.27",
     "graphql": "^15.3.0",
     "graphql-tag": "^2.10.4",
+    "json-server": "^0.16.1",
     "next": "^9.4.4",
     "react": "^16.13.1",
     "react-apollo": "^3.1.5",
