@@ -18,7 +18,7 @@ export const SetStateContext = React.createContext<
   Dispatch<SetStateAction<State>>
 >(initialSetState)
 
-export const SplitContextProvider: React.FC = (props: React.Props<{}>) => {
+export const SplitContextProvider: React.FC = (props: React.Props<unknown>) => {
   const [state, setState] = React.useState(initialState)
 
   const { children } = props
