@@ -1,36 +1,68 @@
 import React from "react"
 import { NextPage } from "next"
 
-// アクションの列挙
-const Action = {
+// アクションタイプの列挙
+const ActionType = {
   Increment: "I",
   Decrement: "D",
 } as const
-type Action = typeof Action[keyof typeof Action]
+type ActionType = typeof ActionType[keyof typeof ActionType]
+
+// アクションの型
+type Action = {
+  type: ActionType
+  payload: {
+    value: number
+  }
+}
 
 // 前の状態とアクションを元に、次の状態を返す関数
 // eslint-disable-next-line consistent-return
-const reducer = (count: number, action: Action): number => {
-  switch (action) {
-    case Action.Increment:
-      return count + 1
-    case Action.Decrement:
-      return count - 1
+const reducer = (previousValue: number, action: Action): number => {
+  switch (action.type) {
+    case ActionType.Increment: {
+      const newValue = previousValue + action.payload.value
+      return newValue
+    }
+    case ActionType.Decrement: {
+      const newValue = previousValue - action.payload.value
+      return newValue
+    }
   }
 }
 
 const Page: NextPage = () => {
   const initialCount = 0
-  const [currentCount, dispatch] = React.useReducer(reducer, initialCount)
+  const [currentValue, dispatch] = React.useReducer(reducer, initialCount)
+
+  const increment = () => {
+    const action: Action = {
+      type: ActionType.Increment,
+      payload: {
+        value: 3,
+      },
+    }
+    dispatch(action)
+  }
+
+  const decrement = () => {
+    const action: Action = {
+      type: ActionType.Decrement,
+      payload: {
+        value: 2,
+      },
+    }
+    dispatch(action)
+  }
 
   return (
     <div>
-      <p>ボタンを {currentCount} 回押しましたね</p>
-      <button type="button" onClick={(): void => dispatch(Action.Increment)}>
-        ボタン
+      <p>{currentValue}</p>
+      <button type="button" onClick={increment}>
+        増やす
       </button>
-      <button type="button" onClick={(): void => dispatch(Action.Decrement)}>
-        ボタン
+      <button type="button" onClick={decrement}>
+        減らす
       </button>
     </div>
   )
