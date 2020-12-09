@@ -10,6 +10,14 @@ const initialState: State = {
   count: 0,
 }
 
+export const increment = (previousState: State): State => {
+  return { count: previousState.count + 1 }
+}
+
+export const decrement = (previousState: State): State => {
+  return { count: previousState.count - 1 }
+}
+
 const initialSetState: Dispatch<SetStateAction<State>> = () => {}
 
 export const StateContext = React.createContext<State>(initialState)
@@ -18,9 +26,9 @@ export const SetStateContext = React.createContext<
   Dispatch<SetStateAction<State>>
 >(initialSetState)
 
-export const SplitContextProvider: React.FC = (props: React.Props<unknown>) => {
-  console.log("SplitContextProvider render")
-
+export const SplitActionsContextProvider: React.FC = (
+  props: React.Props<unknown>
+) => {
   const [state, setState] = React.useState(initialState)
 
   const { children } = props

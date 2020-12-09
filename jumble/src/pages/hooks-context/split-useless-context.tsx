@@ -4,14 +4,8 @@ import { NextPage } from "next"
 import {
   StateContext,
   SetStateContext,
-  SplitContextProvider,
-} from "src/modules/split-context/splitContext"
-
-//
-// hooks-context/split-context と hooks-context/splitless-context は
-// 同じ機能を持つページだが、コンテキストを分割しているかどうかが異なる
-// コンポーネントの render の動作確認用
-//
+  SplitUselessContextProvider,
+} from "src/modules/split-useless-context/splitUselessContext"
 
 const StateComponent: React.FC = () => {
   const state = React.useContext(StateContext)
@@ -25,15 +19,13 @@ const StateComponent: React.FC = () => {
   )
 }
 
+// ボタンを押すと increment が実行されてコンテキスト内の状態が変更
+// ⬇
+// コンテキスト内で increment が再度定義される
+// ⬇
+// 結果、このコンポーネントも再度 render される
 const SetStateComponent: React.FC = () => {
-  const setState = React.useContext(SetStateContext)
-
-  // setState の中の処理を関数で書く形にすることで、
-  // const state = React.useContext(StateContext) をする必要がなくなり、
-  // state 変更時に、このコンポーネント自身は render されない
-  const increment = (): void => {
-    setState((state) => ({ count: state.count + 1 }))
-  }
+  const { increment } = React.useContext(SetStateContext)
 
   console.log("SetStateComponent render")
   return (
@@ -58,9 +50,9 @@ const Parent: React.FC = () => {
 
 const Page: NextPage = () => {
   return (
-    <SplitContextProvider>
+    <SplitUselessContextProvider>
       <Parent />
-    </SplitContextProvider>
+    </SplitUselessContextProvider>
   )
 }
 
