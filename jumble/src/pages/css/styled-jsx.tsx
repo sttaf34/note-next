@@ -2,7 +2,7 @@ import React from "react"
 import { NextPage } from "next"
 import css from "styled-jsx/css"
 
-// CSS の記述が文字列になので補完が効かない
+// CSS の記述が文字列なので補完が効かない
 const styles = css`
   h1 {
     color: red;
