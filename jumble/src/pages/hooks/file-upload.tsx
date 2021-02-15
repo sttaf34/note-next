@@ -32,6 +32,8 @@ const Page: NextPage = () => {
     })
     console.log(response.text)
     setLoading(false)
+
+    // curl -X POST http://localhost:10300/upload -F "file=@Icon.png"
   }
 
   return (
